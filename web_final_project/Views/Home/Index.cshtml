@@ -1,8 +1,28 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+    var username = Context.Session.GetString("Username") ?? "Guest";
+    var isAdmin = Context.Session.GetString("IsAdmin") == "True";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Welcome to the Bookstore!</h1>
+
+<p>Hello, @username!</p>
+
+@if (isAdmin)
+{
+    <p>You are an <strong>Admin</strong>. <a href="/Home/AdminDashboard">Go to Admin Dashboard</a></p>
+}
+else
+{
+    <p>You are a <strong>Customer</strong>. <a href="/Home/CustomerDashboard">Go to Customer Dashboard</a></p>
+}
+
+@if (username == "Guest")
+{
+    <p><a href="/User/Login">Login</a> | <a href="/User/Register">Register</a></p>
+}
+else
+{
+    <p><a href="/User/Logout">Logout</a></p>
+}
+

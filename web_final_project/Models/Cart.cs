@@ -11,7 +11,7 @@ namespace web_final_project.Models
 
 
         public int UserId { get; set; }
-        public User? User { get; set; }
+        public AppUser? User { get; set; }
 
 
         public ICollection<CartItem>? CartItems { get; set; }

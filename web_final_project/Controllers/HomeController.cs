@@ -1,32 +1,26 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using web_final_project.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace web_final_project.Controllers
 {
+    using web_final_project.Filters;
+
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult AdminDashboard()
         {
-            return View();
+            return View(); // Create a simple admin dashboard view
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult CustomerDashboard()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(); // Create a simple customer dashboard view
         }
+
     }
 }
+

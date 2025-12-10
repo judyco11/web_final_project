@@ -1,0 +1,9 @@
+﻿@model web_final_project.Models.Book
+<h2>Delete Book</h2>
+<p>Are you sure you want to delete <strong>@Model.Title</strong> by @Model.Author?</p>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="BookId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a class="btn btn-secondary" href="/Book">Cancel</a>
+</form>

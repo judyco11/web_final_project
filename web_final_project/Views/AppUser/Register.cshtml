@@ -1,0 +1,18 @@
+﻿@model web_final_project.Models.AppUser
+@{
+    Layout = "_Layout";
+}
+
+<h2>Register</h2>
+<form method="post">
+    <input asp-for="FullName" class="form-control" placeholder="Full Name" />
+    <input asp-for="Username" class="form-control mt-2" placeholder="Username" />
+    <input asp-for="Email" type="email" class="form-control mt-2" placeholder="Email" />
+    <input asp-for="Password" type="password" class="form-control mt-2" placeholder="Password" />
+    <input asp-for="Phone" class="form-control mt-2" placeholder="Phone" />
+    <input asp-for="City" class="form-control mt-2" placeholder="City" />
+    <input asp-for="Address" class="form-control mt-2" placeholder="Address" />
+    <button class="btn btn-success mt-3">Register</button>
+</form>
+<p class="mt-2">Already have an account? <a href="/User/Login">Login</a></p>
+

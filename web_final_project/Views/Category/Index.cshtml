@@ -1,0 +1,28 @@
+﻿@model IEnumerable<web_final_project.Models.Category>
+@{
+	ViewData["Title"] = "Categories";
+}
+<h1>Categories</h1>
+<p><a class="btn btn-success" href="/Category/Create">Create New Category</a></p>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var c in Model)
+		{
+			<tr>
+				<td>@c.Name</td>
+				<td>@c.Description</td>
+				<td>
+					<a class="btn btn-warning btn-sm" href="/Category/Edit/@c.CategoryId">Edit</a>
+					<a class="btn btn-danger btn-sm" href="/Category/Delete/@c.CategoryId">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

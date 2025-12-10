@@ -1,0 +1,8 @@
+﻿@model web_final_project.Models.Category
+<h2>Delete Category</h2>
+<p>Are you sure you want to delete <strong>@Model.Name</strong>?</p>
+<form asp-action="Delete">
+    <input type="hidden" asp-for="CategoryId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a class="btn btn-secondary" href="/Category">Cancel</a>
+</form>
