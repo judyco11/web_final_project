@@ -12,7 +12,7 @@ namespace web_final_project.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
 
-        public DbSet<Book> Books { get; set; } = null!;
+        public DbSet<Book> Book { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Cart> Carts { get; set; } = null!;

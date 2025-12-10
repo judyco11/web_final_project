@@ -11,7 +11,7 @@ using web_final_project.Data;
 namespace web_final_project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    partial class ApplicationDbContext : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

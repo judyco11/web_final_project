@@ -27,11 +27,11 @@ namespace web_final_project.Models
 
         public int Stock { get; set; }
 
-
+  
         public string? CoverImage { get; set; }
 
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public Category? Category { get; set; }
 
 
