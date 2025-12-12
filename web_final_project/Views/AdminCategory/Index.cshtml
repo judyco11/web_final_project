@@ -1,0 +1,35 @@
+﻿@model IEnumerable<OnlineBookStors.Models.Category>
+
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<div class="container mt-4">
+    <h2>Categories</h2>
+
+    <a href="/AdminCategory/Create" class="btn btn-success mb-3">Add New Category</a>
+
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th width="200px"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td>@c.Id</td>
+                    <td>@c.Name</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="/AdminCategory/Edit/@c.Id">Edit</a>
+                        <a class="btn btn-danger btn-sm" href="/AdminCategory/Delete/@c.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

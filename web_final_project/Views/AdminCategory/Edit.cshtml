@@ -1,0 +1,17 @@
+﻿@model OnlineBookStors.Models.Category
+
+<div class="container mt-4" style="max-width:500px;">
+    <h2>Edit Category</h2>
+
+    <form method="post">
+        <input type="hidden" name="Id" value="@Model.Id" />
+
+        <div class="mb-3">
+            <label>Name</label>
+            <input name="Name" value="@Model.Name" class="form-control" required />
+        </div>
+
+        <button class="btn btn-primary w-100">Update</button>
+    </form>
+</div>
+

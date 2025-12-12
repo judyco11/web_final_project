@@ -1,23 +1,14 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-
-namespace web_final_project.Models
+﻿namespace OnlineBookStors.Models
 {
     public class Category
     {
-        [Key]
-        public int CategoryId { get; set; }
+        public int Id { get; set; }
 
+        public string Name { get; set; } = string.Empty;
 
-        [Required, MaxLength(100)]
-        public string Name { get; set; } = null!;
-
-
-        public string? Description { get; set; }
-
-
-        public ICollection<Book>? Books { get; set; }
+        public ICollection<Book>? Books { get; set; } = new List<Book>();
     }
 }
+
+
 

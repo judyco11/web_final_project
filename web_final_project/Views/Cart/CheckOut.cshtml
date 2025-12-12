@@ -1,0 +1,17 @@
+﻿@model IEnumerable<OnlineBookStors.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Checkout";
+    decimal total = Model.Sum(x => (x.Book?.Price ?? 0) * x.Quantity);
+
+}
+
+<div class="container mt-4">
+    <h2>Checkout</h2>
+
+    <h4>Total Price: <span class="text-success">@total $</span></h4>
+
+    <form method="post" action="/Cart/Checkout">
+        <button class="btn btn-primary btn-lg mt-3">Confirm Order</button>
+    </form>
+</div>

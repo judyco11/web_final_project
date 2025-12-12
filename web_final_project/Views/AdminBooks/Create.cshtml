@@ -1,0 +1,48 @@
+﻿@model OnlineBookStors.Models.Book
+@{
+    var categories = ViewBag.Categories as List<OnlineBookStors.Models.Category>;
+}
+
+<div class="container mt-4" style="max-width:600px;">
+    <h2>Add Book</h2>
+
+    <form method="post">
+
+        <div class="mb-3">
+            <label>Title</label>
+            <input class="form-control" name="Title" required />
+        </div>
+
+        <div class="mb-3">
+            <label>Author</label>
+            <input class="form-control" name="Author" required />
+        </div>
+
+        <div class="mb-3">
+            <label>Description</label>
+            <textarea class="form-control" name="Description"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label>Category</label>
+            <select name="CategoryId" class="form-select" required>
+                @foreach (var c in categories)
+                {
+                    <option value="@c.Id">@c.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Price</label>
+            <input type="number" name="Price" class="form-control" step="0.01" required />
+        </div>
+
+        <div class="mb-3">
+            <label>Image URL</label>
+            <input class="form-control" name="ImageUrl" />
+        </div>
+
+        <button class="btn btn-success w-100">Save</button>
+    </form>
+</div>

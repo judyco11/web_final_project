@@ -1,0 +1,28 @@
+﻿@model IEnumerable<OnlineBookStors.Models.Order>
+
+<div class="container mt-4">
+    <h2>Orders</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>User</th>
+                <th>Total</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var o in Model)
+            {
+                <tr>
+                    <td>@o.Id</td>
+                    <td>@o.User.Username</td>
+                    <td>@o.TotalAmount $</td>
+                    <td>@o.OrderDate.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

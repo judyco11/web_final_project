@@ -1,0 +1,26 @@
+﻿@model IEnumerable<OnlineBookStors.Models.User>
+
+<div class="container mt-4">
+    <h2>Users</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var u in Model)
+            {
+                <tr>
+                    <td>@u.Username</td>
+                    <td>@u.Email</td>
+                    <td>@u.Role</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

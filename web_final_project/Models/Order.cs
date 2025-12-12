@@ -1,28 +1,20 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-
-namespace web_final_project.Models
+﻿namespace OnlineBookStors.Models
 {
     public class Order
     {
-        [Key]
-        public int OrderId { get; set; }
+        public int Id { get; set; }
 
+        public DateTime OrderDate { get; set; } = DateTime.Now;
+        public string Status { get; set; } = "Pending"; // Pending, Confirmed, Shipped
 
+        public int? TotalAmount { get; set; }
         public int UserId { get; set; }
-        public AppUser? User { get; set; }
+        public User ? User { get; set; }
 
+        public DateTime Created { get; set; }
+        public ICollection<OrderItem> Items { get; set; } = new List<OrderItem>();
 
-        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
-
-
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal TotalPrice { get; set; }
-
-
-        public string Status { get; set; } = "Pending";
     }
 }
+
 

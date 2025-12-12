@@ -1,0 +1,33 @@
+﻿@model IEnumerable<OnlineBookStors.Models.Book>
+
+<div class="container mt-4">
+    <h2>Books</h2>
+
+    <a href="/AdminBook/Create" class="btn btn-success mb-3">Add New Book</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th width="200px"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var b in Model)
+            {
+                <tr>
+                    <td>@b.Title</td>
+                    <td>@b.Category.Name</td>
+                    <td>@b.Price $</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="/AdminBook/Edit/@b.Id">Edit</a>
+                        <a class="btn btn-danger btn-sm" href="/AdminBook/Delete/@b.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
