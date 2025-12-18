@@ -1,10 +1,11 @@
-﻿using System.Security.Claims;
-using BCrypt.Net;
+﻿using BCrypt.Net;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookStore.Data;
 using OnlineBookStore.Models;
+using OnlineBookStore.Models.ViewModels;
+using System.Security.Claims;
 
 namespace OnlineBookStore.Controllers
 {
@@ -24,27 +25,24 @@ namespace OnlineBookStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(string email, string password, string address, string phone)
+        public IActionResult Register(RegisterVM model)
         {
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
-            {
-                ModelState.AddModelError("", "Email and password are required.");
-                return View();
-            }
+            if (!ModelState.IsValid)
+                return View(model);
 
-            if (_context.AppUsers.Any(u => u.Email == email))
+            if (_context.AppUsers.Any(u => u.Email == model.Email))
             {
-                ModelState.AddModelError("", "Email already registered.");
-                return View();
+                ModelState.AddModelError("Email", "Email already registered.");
+                return View(model);
             }
 
             var user = new AppUser
             {
-                Email = email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
+                Email = model.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password),
                 Role = "Customer",
-                Address = address,
-                Phone = phone
+                Address = model.Address,
+                Phone = model.Phone
             };
 
             _context.AppUsers.Add(user);
@@ -52,6 +50,7 @@ namespace OnlineBookStore.Controllers
 
             return RedirectToAction("Login");
         }
+
 
         [HttpGet]
         public IActionResult Login()

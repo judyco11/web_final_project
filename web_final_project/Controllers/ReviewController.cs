@@ -19,9 +19,29 @@ namespace OnlineBookStore.Controllers
         [HttpPost]
         public IActionResult Add(int bookId, int rating, string comment)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            // 1️⃣ Get the logged-in user's ID
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!int.TryParse(userIdString, out int userId))
+            {
+                return BadRequest("Invalid user ID.");
+            }
 
-            var review = new Review
+            // 2️⃣ Check if the user exists
+            var user = _context.AppUsers.Find(userId);
+            if (user == null)
+            {
+                return BadRequest("User does not exist in the database.");
+            }
+
+            // 3️⃣ Check if the book exists
+            var book = _context.Books.Find(bookId);
+            if (book == null)
+            {
+                return NotFound("Book not found.");
+            }
+
+            // 4️⃣ Create and add the review
+            var review = new Reviews
             {
                 BookId = bookId,
                 AppUserId = userId,

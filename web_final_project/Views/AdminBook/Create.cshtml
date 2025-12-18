@@ -2,7 +2,7 @@
 
 <h2 class="mt-4 mb-3">Add Book</h2>
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-6">
 
@@ -31,14 +31,18 @@
                 <input asp-for="Edition" class="form-control" />
             </div>
 
+            <!-- ✅ IMAGE UPLOAD (instead of URL) -->
             <div class="mb-3">
-                <label class="form-label">Cover Image URL</label>
-                <input asp-for="CoverImageUrl" class="form-control" />
+                <label class="form-label">Cover Image</label>
+                <input type="file" name="coverFile" class="form-control" />
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Category</label>
-                <select asp-for="CategoryId" class="form-select" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))"></select>
+                <select asp-for="CategoryId"
+                        class="form-select"
+                        asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+                </select>
             </div>
 
             <button class="btn btn-success">Save</button>

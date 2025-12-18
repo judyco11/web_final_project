@@ -2,7 +2,7 @@
 
 <h2 class="mt-4 mb-3">Edit Book</h2>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
 
     <div class="row">
@@ -33,9 +33,23 @@
                 <input asp-for="Edition" class="form-control" />
             </div>
 
+            <!-- CURRENT COVER IMAGE -->
             <div class="mb-3">
-                <label class="form-label">Cover Image URL</label>
-                <input asp-for="CoverImageUrl" class="form-control" />
+                <label class="form-label">Current Cover</label><br />
+                @if (!string.IsNullOrEmpty(Model.CoverImageUrl))
+                {
+                    <img src="@Model.CoverImageUrl" alt="@Model.Title" width="120" />
+                }
+                else
+                {
+                    <span class="text-muted">No image uploaded</span>
+                }
+            </div>
+
+            
+            <div class="mb-3">
+                <label class="form-label">Upload New Cover (optional)</label>
+                <input type="file" name="coverFile" class="form-control" />
             </div>
 
             <div class="mb-3">

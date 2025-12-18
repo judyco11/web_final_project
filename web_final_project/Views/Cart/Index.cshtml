@@ -27,8 +27,11 @@ else
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Book.Title</td>
-                    <td>@item.Book.Price.ToString("C")</td>
+                    
+                    <td>@item.Book?.Title</td>
+                    <td>@item.Book?.Price.ToString("C")</td>
+                   
+
 
                     <td>
                         <form asp-action="Update" method="post" class="d-flex">
@@ -38,7 +41,7 @@ else
                         </form>
                     </td>
 
-                    <td>@(item.Book.Price* item.Quantity).ToString("C")</td>
+                    <td>@((item.Quantity * (item.Book?.Price ?? 0)).ToString("C"))</td>
 
                     <td>
                         <form asp-action="Remove" method="post">

@@ -2,68 +2,58 @@
 
 @{
     ViewData["Title"] = "Shop Books";
-    var categories = ViewBag.Categories as List<OnlineBookStore.Models.Category>;
-    int? selectedCategory = ViewBag.SelectedCategoryId;
-    string search = ViewBag.Search;
-    string sort = ViewBag.Sort;
 }
 
-<h2 class="mt-3 mb-4">Shop Books</h2>
+<h2>Shop Books</h2>
 
-<form method="get" class="row mb-4">
-    <div class="col-md-4">
-        <input type="text" name="search" value="@search" class="form-control" placeholder="Search by title or author" />
-    </div>
+<!-- 🔹 Search / Filter Form goes here, right under the page title -->
+<form method="get" class="mb-3">
+    <input type="text" name="search" value="@ViewBag.Search" placeholder="Search books..." class="form-control mb-2" />
+    
+    <select name="categoryId" class="form-select mb-2">
+        <option value="">All Categories</option>
+        @foreach (var category in ViewBag.Categories)
+        {
+            <option value="@category.Id" selected="@(category.Id == ViewBag.SelectedCategoryId ? "selected" : null)">
+                @category.Name
+            </option>
+        }
+    </select>
 
-    <div class="col-md-3">
-        <select name="categoryId" class="form-select">
-            <option value="">All Categories</option>
-            @foreach (var c in categories)
-            {
-                <option value="@c.Id" @(selectedCategory == c.Id ? "selected" : "")>@c.Name</option>
-            }
-        </select>
-    </div>
 
-    <div class="col-md-3">
-        <select name="sort" class="form-select">
-            <option value="">Sort by</option>
-            <option value="price_asc" @(sort == "price_asc" ? "selected" : "")>Price: Low to High</option>
-            <option value="price_desc" @(sort == "price_desc" ? "selected" : "")>Price: High to Low</option>
-            <option value="popular" @(sort == "popular" ? "selected" : "")>Most Popular</option>
-        </select>
-    </div>
+    <select name="sort" class="form-select mb-2">
+        <option value="">Sort by Title</option>
+        <option value="price_asc" selected="@(ViewBag.Sort == "price_asc" ? "selected" : null)">Price ↑</option>
+        <option value="price_desc" selected="@(ViewBag.Sort == "price_desc" ? "selected" : null)">Price ↓</option>
+        <option value="popular" selected="@(ViewBag.Sort == "popular" ? "selected" : null)">Most Popular</option>
+    </select>
 
-    <div class="col-md-2">
-        <button class="btn btn-primary w-100">Filter</button>
-    </div>
+
+    <button type="submit" class="btn btn-primary">Filter</button>
 </form>
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">No books found.</div>
-}
-else
-{
-    <div class="row">
-        @foreach (var book in Model)
-        {
-            <div class="col-md-3 mb-4">
-                <div class="card h-100">
-                    <img src="@book.CoverImageUrl" class="card-img-top" style="height: 250px; object-fit: cover;" />
+<!-- 🔹 Books grid -->
+<div class="row">
+    @foreach (var book in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 p-2">
+                <img src="@book.CoverImageUrl" class="card-img-top" alt="@book.Title" />
+                <div class="card-body">
+                    <h5 class="card-title">@book.Title</h5>
+                    <p class="card-text">Author: @book.Author</p>
+                    <p class="card-text">Price: $@book.Price</p>
+                    <p class="card-text">Stock: @book.Stock</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id" class="btn btn-primary btn-sm">View Details</a>
+                    <form asp-controller="Cart" asp-action="Add" method="post" style="display:inline">
+                        <input type="hidden" name="bookId" value="@book.Id" />
+                        <button type="submit" class="btn btn-success btn-sm">Add to Cart</button>
+                    </form>
 
-                    <div class="card-body">
-                        <h5 class="card-title">@book.Title</h5>
-                        <p class="text-muted">@book.Author</p>
-                        <p><strong>@book.Price.ToString("C")</strong></p>
-
-                        <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-outline-primary w-100">
-                            View Details
-                        </a>
-                    </div>
                 </div>
             </div>
-        }
-    </div>
-}
-
+        </div>
+    }
+</div>

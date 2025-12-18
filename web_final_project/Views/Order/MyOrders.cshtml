@@ -38,12 +38,30 @@ else
                                 @foreach (var item in order.Items)
                                 {
                                     <tr>
-                                        <td>@item.Book.Title</td>
+                                        <td>@item.Book?.Title</td>
                                         <td>@item.Quantity</td>
                                         <td>@item.UnitPrice.ToString("C")</td>
                                     </tr>
                                 }
                             </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <th colspan="2" class="text-end">Total:</th>
+                                    <th>
+                                        @{
+                                            decimal orderTotal = 0;
+                                            foreach (var item in order.Items)
+                                            {
+                                                orderTotal += item.Quantity * item.UnitPrice;
+                                            }
+                                        }
+                                        @orderTotal.ToString("C")
+                                    </th>
+                                </tr>
+                            </tfoot>
+
+
                         </table>
 
                         @if (order.Status == "Pending")
@@ -58,4 +76,6 @@ else
             </div>
         }
     </div>
+    
+
 }

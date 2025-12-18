@@ -27,7 +27,7 @@ namespace OnlineBookStore.Models
         public int PopularityScore { get; set; }
 
         public ICollection<OrderItem>? OrderItems { get; set; }
-        public ICollection<Reviews>? Reviews { get; set; }
+        public ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
     }
 }
 
