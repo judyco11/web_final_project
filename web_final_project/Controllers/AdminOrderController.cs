@@ -54,20 +54,45 @@ namespace OnlineBookStore.Controllers
 
         // POST: AdminOrder/Confirm
         [HttpPost]
+       
         public async Task<IActionResult> Confirm(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-                return NotFound();
+            var order = await _context.Orders
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Book)
+                .FirstOrDefaultAsync(o => o.Id == id);
 
-            if (order.Status == "Pending")
+            if (order == null) return NotFound();
+
+            if (order.Status != "Pending")
             {
-                order.Status = "Confirmed";
-                await _context.SaveChangesAsync();
+                TempData["Error"] = "Order cannot be confirmed.";
+                return RedirectToAction(nameof(Index));
             }
 
+            // Check stock
+            foreach (var item in order.Items)
+            {
+                if (item.Book!.Stock < item.Quantity)
+                {
+                    TempData["Error"] = $"Not enough stock for {item.Book.Title}";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+            // Reduce stock
+            foreach (var item in order.Items)
+            {
+                item.Book!.Stock -= item.Quantity;
+            }
+
+            order.Status = "Confirmed";
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Order confirmed and stock updated.";
             return RedirectToAction(nameof(Index));
         }
+
 
         // POST: AdminOrder/Ship
         [HttpPost]

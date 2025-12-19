@@ -79,9 +79,14 @@ else
                 <input type="hidden" name="bookId" value="@Model.Id" />
 
                 <div class="input-group" style="max-width: 220px;">
-                    <input type="number" name="quantity" value="1" min="1" class="form-control" />
-                    <button class="btn btn-success">Add to Cart</button>
+                    <input type="number" name="quantity" value="1" min="1" max="@Model.Stock" class="form-control" @(Model.Stock == 0 ? "disabled" : "") />
+                    <button class="btn btn-success" @(Model.Stock == 0 ? "disabled" : "")>Add to Cart</button>
                 </div>
+                @if (Model.Stock == 0)
+                {
+                    <p class="text-danger mt-2">Out of stock</p>
+                }
+
             </form>
         }
         else

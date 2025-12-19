@@ -37,12 +37,26 @@ namespace OnlineBookStore.Controllers
         public async Task<IActionResult> Add(int bookId, int quantity = 1)
         {
             var userId = GetUserId();
+            var book = await _context.Books.FindAsync(bookId);
+
+            if (book == null) return NotFound();
+
+            if (quantity > book.Stock)
+            {
+                TempData["Error"] = $"Only {book.Stock} copies available.";
+                return RedirectToAction("Index", "Book");
+            }
 
             var existing = await _context.CartItems
                 .FirstOrDefaultAsync(c => c.AppUserId == userId && c.BookId == bookId);
 
             if (existing != null)
             {
+                if (existing.Quantity + quantity > book.Stock)
+                {
+                    TempData["Error"] = $"Cannot add more than {book.Stock} copies to the cart.";
+                    return RedirectToAction("Index", "Book");
+                }
                 existing.Quantity += quantity;
             }
             else
@@ -56,14 +70,24 @@ namespace OnlineBookStore.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Cart");
+            TempData["Success"] = "Book added to cart!";
+            return RedirectToAction("Index", "Book");
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(int id, int quantity)
         {
-            var item = await _context.CartItems.FindAsync(id);
+            var item = await _context.CartItems
+                .Include(c => c.Book)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (item == null) return NotFound();
+
+            if (quantity > item.Book!.Stock)
+            {
+                TempData["Error"] = $"Only {item.Book.Stock} copies available.";
+                return RedirectToAction("Index");
+            }
 
             if (quantity <= 0)
                 _context.CartItems.Remove(item);
@@ -73,6 +97,7 @@ namespace OnlineBookStore.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Remove(int id)
