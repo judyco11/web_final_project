@@ -1,8 +1,13 @@
-﻿@model OnlineBookStore.Models.ViewModels.RegisterVM
+﻿@model OnlineBookStore.Models.ViewModels.UpdateProfileVM
 
-<h2 class="mt-4 mb-3">Register</h2>
+<h2>Update Profile</h2>
 
-<form asp-action="Register" method="post">
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<form asp-action="Profile" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="mb-3">
@@ -12,13 +17,13 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
+        <label asp-for="NewPassword" class="form-label">New Password</label>
+        <input asp-for="NewPassword" type="password" class="form-control" />
+        <span asp-validation-for="NewPassword" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="ConfirmPassword" class="form-label"></label>
+        <label asp-for="ConfirmPassword" class="form-label">Confirm New Password</label>
         <input asp-for="ConfirmPassword" type="password" class="form-control" />
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
     </div>
@@ -35,7 +40,6 @@
         <span asp-validation-for="Phone" class="text-danger"></span>
     </div>
 
-    <button class="btn btn-success">Register</button>
-    <a asp-action="Login" class="btn btn-link">Already have an account?</a>
+    <button class="btn btn-primary">Update Profile</button>
 </form>
 

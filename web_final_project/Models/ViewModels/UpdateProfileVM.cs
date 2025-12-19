@@ -2,18 +2,18 @@
 
 namespace OnlineBookStore.Models.ViewModels
 {
-    public class RegisterVM
+    public class UpdateProfileVM
     {
         [Required, EmailAddress]
         public string Email { get; set; } = string.Empty;
 
-        [Required, MinLength(6)]
+        [MinLength(6)]
         [DataType(DataType.Password)]
-        public string Password { get; set; } = string.Empty;
+        public string? NewPassword { get; set; }
 
-        [Required, Compare("Password")]
+        [Compare("NewPassword")]
         [DataType(DataType.Password)]
-        public string ConfirmPassword { get; set; } = string.Empty;
+        public string? ConfirmPassword { get; set; }
 
         [MaxLength(250)]
         public string? Address { get; set; }

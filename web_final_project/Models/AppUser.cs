@@ -15,7 +15,11 @@ namespace OnlineBookStore.Models
         [Required]
         public string Role { get; set; } = "Customer"; // "Customer" or "Admin"
 
+        [MaxLength(250)]
         public string? Address { get; set; }
+
+        [MaxLength(20)]
+        [Phone]
         public string? Phone { get; set; }
 
         public ICollection<Order>? Orders { get; set; }
@@ -23,5 +27,3 @@ namespace OnlineBookStore.Models
         public ICollection<CartItem>? CartItems { get; set; }
     }
 }
-
-
