@@ -17,41 +17,49 @@ namespace OnlineBookStore.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // ✅ Total revenue
+            // Total revenue
             var totalRevenue = await _context.OrderItems
-                .SumAsync(i => i.UnitPrice * i.Quantity);
+    .Where(i => i.Order.Status == "Confirmed" || i.Order.Status == "Shipped")
+    .SumAsync(i => i.UnitPrice * i.Quantity);
 
-            // ✅ Total sales count
+
+            //Total sales count
             var totalSales = await _context.OrderItems
-                .SumAsync(i => i.Quantity);
+    .Where(i => i.Order.Status == "Confirmed" || i.Order.Status == "Shipped")
+    .SumAsync(i => i.Quantity);
 
-            // ✅ Top-selling books
+
+            // Top-selling books
             var topBooks = await _context.OrderItems
-                .Include(i => i.Book)
-                .GroupBy(i => i.Book.Title)
-                .Select(g => new
-                {
-                    Title = g.Key,
-                    Quantity = g.Sum(i => i.Quantity),
-                    Revenue = g.Sum(i => i.UnitPrice * i.Quantity)
-                })
-                .OrderByDescending(g => g.Quantity)
-                .Take(5)
-                .ToListAsync();
+    .Include(i => i.Book)
+    .Where(i => i.Order.Status == "Confirmed" || i.Order.Status == "Shipped")
+    .GroupBy(i => i.Book.Title)
+    .Select(g => new
+    {
+        Title = g.Key,
+        Quantity = g.Sum(i => i.Quantity),
+        Revenue = g.Sum(i => i.UnitPrice * i.Quantity)
+    })
+    .OrderByDescending(g => g.Quantity)
+    .Take(5)
+    .ToListAsync();
 
-            // ✅ Most popular categories
+
+            // Most popular categories
             var topCategories = await _context.OrderItems
-                .Include(i => i.Book)
-                .ThenInclude(b => b.Category)
-                .GroupBy(i => i.Book.Category.Name)
-                .Select(g => new
-                {
-                    Category = g.Key,
-                    Quantity = g.Sum(i => i.Quantity)
-                })
-                .OrderByDescending(g => g.Quantity)
-                .Take(5)
-                .ToListAsync();
+    .Include(i => i.Book)
+    .ThenInclude(b => b.Category)
+    .Where(i => i.Order.Status == "Confirmed" || i.Order.Status == "Shipped")
+    .GroupBy(i => i.Book.Category.Name)
+    .Select(g => new
+    {
+        Category = g.Key,
+        Quantity = g.Sum(i => i.Quantity)
+    })
+    .OrderByDescending(g => g.Quantity)
+    .Take(5)
+    .ToListAsync();
+
 
             ViewBag.TotalRevenue = totalRevenue;
             ViewBag.TotalSales = totalSales;

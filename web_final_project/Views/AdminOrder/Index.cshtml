@@ -50,7 +50,7 @@
                         </form>
                     }
 
-                    @if (o.Status == "Pending" || o.Status == "Confirmed")
+                    @if (o.Status == "Pending" )
                     {
                         <form asp-action="Cancel" method="post" class="d-inline">
                             <input type="hidden" name="id" value="@o.Id" />

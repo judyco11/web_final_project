@@ -54,12 +54,15 @@ namespace OnlineBookStore.Controllers
 
         // POST: AdminOrder/Confirm
         [HttpPost]
-       
+
+        // POST: AdminOrder/Confirm
+        [HttpPost]
         public async Task<IActionResult> Confirm(int id)
         {
             var order = await _context.Orders
                 .Include(o => o.Items)
                 .ThenInclude(i => i.Book)
+                .Include(o => o.AppUser)   // ✅ Include the user
                 .FirstOrDefaultAsync(o => o.Id == id);
 
             if (order == null) return NotFound();
@@ -87,11 +90,19 @@ namespace OnlineBookStore.Controllers
             }
 
             order.Status = "Confirmed";
+
+            // ✅ Save changes first
             await _context.SaveChangesAsync();
 
+            // ✅ Add a notification for the user using TempData
+            TempData[$"Order_{order.Id}"] = $"✅ Your order #{order.Id} has been confirmed!";
+
+            // Optional: admin success message
             TempData["Success"] = "Order confirmed and stock updated.";
+
             return RedirectToAction(nameof(Index));
         }
+
 
 
         // POST: AdminOrder/Ship

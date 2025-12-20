@@ -2,10 +2,6 @@
 
 <h2>Update Profile</h2>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
 
 <form asp-action="Profile" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
